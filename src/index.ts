@@ -1,13 +1,13 @@
 import express from 'express';
 import run from './server';
 import 'dotenv/config';
-import { addUserTest } from './Controller/testController';
+import { addUserTest, getHello } from './Controller/testController';
 
 const app = express();
 const port = process.env.PORT || 3003;
 
 app.use(express.json());
-
+app.use('/api', getHello);
 app.use('/user', addUserTest);
 
 
