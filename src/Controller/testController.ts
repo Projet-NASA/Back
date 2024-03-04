@@ -6,21 +6,13 @@ export const getHello = (req: Request, res: Response) => {
 }
 const prisma = new PrismaClient();
 
-async function main() {
-  const newUser = await prisma.user.create({
-    data: {
-      name: "Alice",
-      email: "alice@example.com",
-    },
-  });
-  console.log("New User:", newUser);
+export const addUserTest = async (req: Request, res: Response) => {
+    const { name, email } = req.body;
+    const user = await prisma.user.create({
+        data: {
+            name : "name",
+            email : "email",
+        },
+    });
+    res.status(201).json({ user });
 }
-
-main()
-  .catch((e) => {
-    throw e;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
-export default main;
