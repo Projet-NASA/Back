@@ -2,6 +2,7 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import run from './server';
 import 'dotenv/config';
+import testController from './Controller/testController';
 
 const prisma = new PrismaClient();
 const app = express();
@@ -18,5 +19,6 @@ app.listen(port, () => {
 });  
 
 run();
+testController();
 
 
