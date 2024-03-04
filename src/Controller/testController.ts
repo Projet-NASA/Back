@@ -6,9 +6,8 @@ export const getHello = (req: Request, res: Response) => {
 }
 const prisma = new PrismaClient();
 
-export const addUserTest = async (req: Request, res: Response) => {
-    const { name, email } = req.body;
-    const user = await prisma.user.create({
+export const addUserTest = async (res: Response) => {
+    const user = await prisma.users.create({
         data: {
             name : "name",
             email : "email",
