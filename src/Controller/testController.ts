@@ -6,13 +6,20 @@ export const getHello = (req: Request, res: Response) => {
 }
 const prisma = new PrismaClient();
 
-export const addUserTest = async (req: Request,res: Response) => {
+export const userTest = async (req: Request,res: Response) => {
     const { name, email } = req.body;
-    const user = await prisma.user.create({
+    try {
+        const user = await prisma.user.create({
         data: {
             name ,
             email,
         },
     });
-    res.status(201).json({ user });
+    res.status(200).json({ message : 'User added successfully'});
+    
+
+    }catch (error) {
+        res.status(500).json({ error: 'Something went wrong' });
+    }
+    
 }
