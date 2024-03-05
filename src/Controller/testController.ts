@@ -7,10 +7,11 @@ export const getHello = (req: Request, res: Response) => {
 const prisma = new PrismaClient();
 
 export const addUserTest = async (req: Request,res: Response) => {
+    const { name, email } = req.body;
     const user = await prisma.users.create({
         data: {
-            name : "name",
-            email : "email",
+            name ,
+            email,
         },
     });
     res.status(201).json({ user });
