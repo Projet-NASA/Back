@@ -46,9 +46,7 @@ Pour configurer le projet sur votre machine locale, suivez ces étapes :
 
 Pour démarrer le serveur en mode développement, exécutez :
 
-    ```
     npm start
-    ```
 
 Le serveur devrait démarrer et écouter sur le port spécifié dans votre fichier `.env` (par défaut : 3003). Vous pouvez accéder à l'API via `http://localhost:3003/`.
 
