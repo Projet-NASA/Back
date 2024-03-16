@@ -4,6 +4,7 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import routerTest from "./Routes/testRoute";
+import routerUser from "./Routes/userRoute";
 import run from "./server";
 
 const app = express();
@@ -16,6 +17,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/test", routerTest);
+
+app.use("/user", routerUser);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

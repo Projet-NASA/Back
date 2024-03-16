@@ -16,7 +16,8 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.11.28",
     "prisma": "^5.11.0",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.2",
+    "@types/bun": "latest"
   },
   "dependencies": {
     "@prisma/client": "^5.11.0",
@@ -26,5 +27,7 @@
     "helmet": "^7.1.0",
     "mongodb": "^6.5.0",
     "morgan": "^1.10.0"
-  }
+  },
+  "module": "index.ts",
+  "type": "module"
 }

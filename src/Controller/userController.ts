@@ -13,6 +13,7 @@ export const createUser = async (req: Request, res: Response) => {
     });
     res.status(200).json({ message: "utilisateur ajouté avec succès", user });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "une erreur est survenue" });
   }
 };
@@ -22,6 +23,7 @@ export const getUsers = async (req: Request, res: Response) => {
     const retrievedUsers = await prisma.user.findMany();
     res.status(200).json(retrievedUsers);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "une erreur est survenue" });
   }
 };
@@ -36,6 +38,7 @@ export const getUser = async (req: Request, res: Response) => {
     });
     res.status(200).json(retrievedUser);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "une erreur est survenue" });
   }
 };
@@ -58,6 +61,7 @@ export const updateUser = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: "utilisateur mis à jour avec succès", updatedUser });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "une erreur est survenue" });
   }
 };
@@ -72,6 +76,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     });
     res.status(200).json({ message: "utilisateur supprimé avec succès" });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "une erreur est survenue" });
   }
 };
