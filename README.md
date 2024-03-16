@@ -5,6 +5,7 @@ Ce projet backend a été développé avec Node.js, Express, MongoDB, et Prisma.
 ## Prérequis
 
 Avant de commencer, assurez-vous d'avoir installé sur votre machine :
+
 - Node.js (version recommandée 14.x ou supérieure)
 - npm (généralement inclus avec Node.js)
 - MongoDB (si vous souhaitez exécuter une instance locale)
@@ -15,32 +16,32 @@ Pour configurer le projet sur votre machine locale, suivez ces étapes :
 
 1. Clonez le dépôt sur votre machine locale :
 
-    ```
-    git clone <URL_DU_DEPOT>
-    cd mon-back-end
-    ```
+   ```
+   git clone <URL_DU_DEPOT>
+   cd mon-back-end
+   ```
 
 2. Installez les dépendances du projet :
 
-    ```
-    npm install
-    ```
+   ```
+   npm install
+   ```
 
 3. Configurez les variables d'environnement :
 
-    Copiez le fichier `.env.example` en un nouveau fichier nommé `.env` et remplacez les valeurs par défaut par vos configurations spécifiques :
+   Copiez le fichier `.env.example` en un nouveau fichier nommé `.env` et remplacez les valeurs par défaut par vos configurations spécifiques :
 
-    ```
-    cp .env.example .env
-    ```
+   ```
+   cp .env.example .env
+   ```
 
-    Assurez-vous de définir correctement `MONGODB_URI` avec votre chaîne de connexion MongoDB.
+   Assurez-vous de définir correctement `MONGODB_URI` avec votre chaîne de connexion MongoDB.
 
 4. Générez le client Prisma (si votre projet utilise Prisma) :
 
-    ```
-    npx prisma generate
-    ```
+   ```
+   npx prisma generate
+   ```
 
 ## Démarrage du serveur
 
@@ -64,6 +65,7 @@ Le serveur devrait démarrer et écouter sur le port spécifié dans votre fichi
 Listez ici les différents endpoints de votre API et décrivez brièvement leur fonction.
 
 Exemple :
+
 - `GET /` : Renvoie un message de bienvenue.
 - `POST /data` : Ajoute de nouvelles données à la base.
 
@@ -74,4 +76,3 @@ Si vous souhaitez contribuer à ce projet, veuillez suivre les directives de con
 ## Licence
 
 [MIT](LICENSE)
-

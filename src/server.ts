@@ -1,6 +1,6 @@
-require('dotenv').config(); 
+require("dotenv").config();
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri, {
@@ -8,7 +8,7 @@ const client = new MongoClient(uri, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
 });
 
 async function run() {
@@ -16,13 +16,12 @@ async function run() {
   try {
     await client.connect();
     await client.db("Nasa").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } 
-  catch (e) {
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!"
+    );
+  } catch (e) {
     console.error("Error connecting to MongoDB: ", e);
-  }
-  
-  finally {
+  } finally {
     await client.close();
   }
 }
