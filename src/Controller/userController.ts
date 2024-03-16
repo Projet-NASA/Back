@@ -11,7 +11,7 @@ export const createUser = async (req: Request, res: Response) => {
         email,
       },
     });
-    res.status(200).json({ message: "utilisateur ajouté avec succès" });
+    res.status(200).json({ message: "utilisateur ajouté avec succès", user });
   } catch (error) {
     res.status(500).json({ error: "une erreur est survenue" });
   }
@@ -19,8 +19,8 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
-    const users = await prisma.user.findMany();
-    res.status(200).json(users);
+    const retrievedUsers = await prisma.user.findMany();
+    res.status(200).json(retrievedUsers);
   } catch (error) {
     res.status(500).json({ error: "une erreur est survenue" });
   }
@@ -29,12 +29,12 @@ export const getUsers = async (req: Request, res: Response) => {
 export const getUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const user = await prisma.user.findUnique({
+    const retrievedUser = await prisma.user.findUnique({
       where: {
         id: id,
       },
     });
-    res.status(200).json(user);
+    res.status(200).json(retrievedUser);
   } catch (error) {
     res.status(500).json({ error: "une erreur est survenue" });
   }
@@ -44,7 +44,7 @@ export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { firstName, lastName, email } = req.body;
   try {
-    const user = await prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: {
         id: id,
       },
@@ -54,7 +54,9 @@ export const updateUser = async (req: Request, res: Response) => {
         email,
       },
     });
-    res.status(200).json({ message: "utilisateur mis à jour avec succès" });
+    res
+      .status(200)
+      .json({ message: "utilisateur mis à jour avec succès", updatedUser });
   } catch (error) {
     res.status(500).json({ error: "une erreur est survenue" });
   }
