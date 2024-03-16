@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 import prisma from "../prisma";
+
+const bcrypt = require("bcrypt");
 
 export const createUser = async (req: Request, res: Response) => {
   const { firstName, lastName, email } = req.body;
@@ -9,6 +12,7 @@ export const createUser = async (req: Request, res: Response) => {
         firstName,
         lastName,
         email,
+        password: await bcrypt.hash("password", 10),
       },
     });
     res.status(200).json({ message: "utilisateur ajouté avec succès", user });
@@ -75,6 +79,40 @@ export const deleteUser = async (req: Request, res: Response) => {
       },
     });
     res.status(200).json({ message: "utilisateur supprimé avec succès" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "une erreur est survenue" });
+  }
+};
+
+export const loginUser = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "utilisateur non trouvé" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(400).json({ error: "mot de passe incorrect" });
+    }
+
+    if (!process.env.JWT_SECRET) {
+      throw new Error(" la clé JWT_SECRET n'est pas définie");
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.status(200).json({ message: "connexion réussie", user, token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "une erreur est survenue" });
