@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import prisma from "../prisma";
+import prisma from "../prisma";   
 
 export const userTestMiddleWare = async (req: Request, res: Response) => {
-  const { firstName, email } = req.body;
+  const { name, email } = req.body;
   try {
     const user = await prisma.user.create({
       data: {
-        firstName,
+        name,
         email,
       },
     });

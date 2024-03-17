@@ -25,6 +25,7 @@ Pour configurer le projet sur votre machine locale, suivez ces étapes :
 
    ```
    bun install
+
    ```
 
 3. Configurez les variables d'environnement :
@@ -78,3 +79,5 @@ Si vous souhaitez contribuer à ce projet, veuillez suivre les directives de con
 [MIT](LICENSE)
 
 lkWs9OWwQxfZ9QPJ
+
+
