@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import prisma from "../prisma";   
+import prisma from "../prisma";
 
 export const userTestMiddleWare = async (req: Request, res: Response) => {
   const { name, email } = req.body;
