@@ -7,7 +7,7 @@ Ce projet backend a été développé avec Node.js, Express, MongoDB, et Prisma.
 Avant de commencer, assurez-vous d'avoir installé sur votre machine :
 
 - Node.js (version recommandée 14.x ou supérieure)
-- npm (généralement inclus avec Node.js)
+- bun
 - MongoDB (si vous souhaitez exécuter une instance locale)
 
 ## Installation
@@ -24,7 +24,8 @@ Pour configurer le projet sur votre machine locale, suivez ces étapes :
 2. Installez les dépendances du projet :
 
    ```
-   npm install
+   bun install
+
    ```
 
 3. Configurez les variables d'environnement :
@@ -47,7 +48,7 @@ Pour configurer le projet sur votre machine locale, suivez ces étapes :
 
 Pour démarrer le serveur en mode développement, exécutez :
 
-    npm start
+    bun start
 
 Le serveur devrait démarrer et écouter sur le port spécifié dans votre fichier `.env` (par défaut : 3003). Vous pouvez accéder à l'API via `http://localhost:3003/`.
 
@@ -76,3 +77,7 @@ Si vous souhaitez contribuer à ce projet, veuillez suivre les directives de con
 ## Licence
 
 [MIT](LICENSE)
+
+lkWs9OWwQxfZ9QPJ
+
+

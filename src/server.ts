@@ -11,7 +11,7 @@ const client = new MongoClient(uri, {
   },
 });
 
-async function run() {
+export default async function run() {
   console.log("Connecting to MongoDB...");
   try {
     await client.connect();
@@ -25,5 +25,3 @@ async function run() {
     await client.close();
   }
 }
-
-export default run;
