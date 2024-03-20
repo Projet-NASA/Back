@@ -17,7 +17,7 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
-app.use("/test", routerTest);
+app.use("/", routerTest);
 app.use("/user", routerUser);
 
 app.listen(port, () => {

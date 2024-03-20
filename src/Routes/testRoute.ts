@@ -5,6 +5,6 @@ import { getHello, userTest } from "../Controller/testController";
 const routerTest = Router();
 
 routerTest.get("/", getHello);
-routerTest.post("/addUser", userTest);
+routerTest.post("/data", userTest);
 
 export default routerTest;
