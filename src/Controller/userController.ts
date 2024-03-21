@@ -26,4 +26,4 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const deleteUser = async (req: Request, res: Response) => {
   await deleteUserFromMiddleware(req, res);
-};
+}
