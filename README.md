@@ -77,4 +77,3 @@ Si vous souhaitez contribuer à ce projet, veuillez suivre les directives de con
 ## Licence
 
 [MIT](LICENSE)
-
