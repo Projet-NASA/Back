@@ -7,6 +7,20 @@ const bcrypt = require("bcrypt");
 export const createUser = async (req: Request, res: Response) => {
   const { firstName, lastName, email, password } = req.body;
   try {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    if (existingUser) {
+      return res.status(400).json({ error: "Cet Email est déjà utilisé" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "une erreur est survenue" });
+  }
+
+  try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
