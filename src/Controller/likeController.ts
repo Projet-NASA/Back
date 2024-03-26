@@ -1,14 +1,13 @@
-import { Request,Response } from "express";
+import { Request, Response } from "express";
 
 import {
   createLike as createLikeFromMiddleware,
   deleteLike as deleteLikeFromMiddleware,
   getLike as getLikeFromMiddleware,
+  getLikesByUser as getLikesByUserFromMiddleware,
   getLikes as getLikesFromMiddleware,
   updateLike as updateLikeFromMiddleware,
-  getLikesByUser as getLikesByUserFromMiddleware,
 } from "../middleware/likeMiddleWare";
-
 
 export const createLike = async (req: Request, res: Response) => {
   await createLikeFromMiddleware(req, res);

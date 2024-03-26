@@ -8,7 +8,6 @@ import {
   updateComment as updateCommentFromMiddleware,
 } from "../middleware/commentMiddleWare";
 
-
 export const createComment = async (req: Request, res: Response) => {
   await createCommentFromMiddleware(req, res);
 };
@@ -28,4 +27,3 @@ export const updateComment = async (req: Request, res: Response) => {
 export const deleteComment = async (req: Request, res: Response) => {
   await deleteCommentFromMiddleware(req, res);
 };
-

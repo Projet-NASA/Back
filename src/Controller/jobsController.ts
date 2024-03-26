@@ -1,4 +1,4 @@
-import {Request, Response} from "express";
+import { Request, Response } from "express";
 
 import {
   createJob as createJobFromMiddleware,
@@ -7,7 +7,6 @@ import {
   getJobs as getJobsFromMiddleware,
   updateJob as updateJobFromMiddleware,
 } from "../middleware/jobsMiddleWare";
-
 
 export const createJob = async (req: Request, res: Response) => {
   await createJobFromMiddleware(req, res);

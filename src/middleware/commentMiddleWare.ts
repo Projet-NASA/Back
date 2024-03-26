@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import prisma from "../prisma";
 
 export const createComment = async (req: Request, res: Response) => {
@@ -9,7 +8,7 @@ export const createComment = async (req: Request, res: Response) => {
       data: {
         message,
         userId,
-        postId
+        postId,
       },
     });
     res.status(200).json({ message: "Comment added successfully", comment });
@@ -53,7 +52,9 @@ export const updateComment = async (req: Request, res: Response) => {
         message,
       },
     });
-    res.status(200).json({ message: "Comment updated successfully", updatedComment });
+    res
+      .status(200)
+      .json({ message: "Comment updated successfully", updatedComment });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
   }
@@ -100,4 +101,3 @@ export const getCommentsByPost = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
-

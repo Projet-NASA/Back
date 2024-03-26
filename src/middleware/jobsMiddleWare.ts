@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import prisma from "../prisma";
 
 export const createJob = async (req: Request, res: Response) => {
@@ -49,7 +48,7 @@ export const getJob = async (req: Request, res: Response) => {
 
 export const updateJob = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { title, company, location, type, from, to, description} = req.body;
+  const { title, company, location, type, from, to, description } = req.body;
   try {
     const updatedJob = await prisma.jobs.update({
       where: {

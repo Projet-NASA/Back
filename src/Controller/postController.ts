@@ -8,7 +8,6 @@ import {
   updatePost as updatePostFromMiddleware,
 } from "../middleware/postMiddleWare";
 
-
 export const createPost = async (req: Request, res: Response) => {
   await createPostFromMiddleware(req, res);
 };
@@ -28,4 +27,3 @@ export const updatePost = async (req: Request, res: Response) => {
 export const deletePost = async (req: Request, res: Response) => {
   await deletePostFromMiddleware(req, res);
 };
-

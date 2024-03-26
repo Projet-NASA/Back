@@ -8,7 +8,6 @@ import {
   updateExperience as updateExperienceFromMiddleware,
 } from "../middleware/experienceMiddleWare";
 
-
 export const createExperience = async (req: Request, res: Response) => {
   await createExperienceFromMiddleware(req, res);
 };
@@ -28,4 +27,3 @@ export const updateExperience = async (req: Request, res: Response) => {
 export const deleteExperience = async (req: Request, res: Response) => {
   await deleteExperienceFromMiddleware(req, res);
 };
-

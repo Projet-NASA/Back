@@ -1,9 +1,18 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import prisma from "../prisma";
 
 export const createExperience = async (req: Request, res: Response) => {
-  const { title, company, location, from, to, current,type, description, userId } = req.body;
+  const {
+    title,
+    company,
+    location,
+    from,
+    to,
+    current,
+    type,
+    description,
+    userId,
+  } = req.body;
   try {
     const experience = await prisma.experience.create({
       data: {
@@ -18,7 +27,9 @@ export const createExperience = async (req: Request, res: Response) => {
         userId,
       },
     });
-    res.status(200).json({ message: "Experience added successfully", experience });
+    res
+      .status(200)
+      .json({ message: "Experience added successfully", experience });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
   }
@@ -49,7 +60,8 @@ export const getExperience = async (req: Request, res: Response) => {
 
 export const updateExperience = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { title, company, location, type, from, to, description,current } = req.body;
+  const { title, company, location, type, from, to, description, current } =
+    req.body;
   try {
     const updatedExperience = await prisma.experience.update({
       where: {
@@ -66,7 +78,9 @@ export const updateExperience = async (req: Request, res: Response) => {
         current,
       },
     });
-    res.status(200).json({ message: "Experience updated successfully", updatedExperience });
+    res
+      .status(200)
+      .json({ message: "Experience updated successfully", updatedExperience });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
   }
@@ -85,4 +99,3 @@ export const deleteExperience = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
-

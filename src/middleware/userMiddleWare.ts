@@ -5,7 +5,16 @@ import prisma from "../prisma";
 const bcrypt = require("bcrypt");
 
 export const createUser = async (req: Request, res: Response) => {
-  const { firstName, lastName, email, password, phone, country, city, dateofbirth } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    phone,
+    country,
+    city,
+    dateofbirth,
+  } = req.body;
   try {
     const existingUser = await prisma.user.findUnique({
       where: {

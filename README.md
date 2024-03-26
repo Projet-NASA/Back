@@ -13,9 +13,9 @@ description: >-
 
 Avant de commencer, assurez-vous d'avoir installé sur votre machine :
 
-* Node.js (version recommandée 14.x ou supérieure)
-* bun
-* MongoDB (si vous souhaitez exécuter une instance locale)
+- Node.js (version recommandée 14.x ou supérieure)
+- bun
+- MongoDB (si vous souhaitez exécuter une instance locale)
 
 ### Installation
 
@@ -27,12 +27,14 @@ Pour configurer le projet sur votre machine locale, suivez ces étapes :
     git clone <URL_DU_DEPOT>
     cd mon-back-end
     ```
+
 2.  Installez les dépendances du projet :
 
     ```
     bun install
 
     ```
+
 3.  Configurez les variables d'environnement :
 
     Copiez le fichier `.env.example` en un nouveau fichier nommé `.env` et remplacez les valeurs par défaut par vos configurations spécifiques :
@@ -42,6 +44,7 @@ Pour configurer le projet sur votre machine locale, suivez ces étapes :
     ```
 
     Assurez-vous de définir correctement `MONGODB_URI` avec votre chaîne de connexion MongoDB.
+
 4.  Générez le client Prisma (si votre projet utilise Prisma) :
 
     ```
@@ -60,12 +63,12 @@ Le serveur devrait démarrer et écouter sur le port spécifié dans votre fichi
 
 ### Structure du projet
 
-* `src/` : Contient les fichiers source du projet.
-  * `index.ts` : Le point d'entrée de l'application.
-  * `server.ts` : Configuration du serveur et connexion à MongoDB.
-* `prisma/` : Contient le schéma Prisma et les migrations (si Prisma est utilisé).
-* `.env` : Fichier de configuration pour les variables d'environnement.
-* `package.json` : Fichier de configuration du projet et des dépendances.
+- `src/` : Contient les fichiers source du projet.
+  - `index.ts` : Le point d'entrée de l'application.
+  - `server.ts` : Configuration du serveur et connexion à MongoDB.
+- `prisma/` : Contient le schéma Prisma et les migrations (si Prisma est utilisé).
+- `.env` : Fichier de configuration pour les variables d'environnement.
+- `package.json` : Fichier de configuration du projet et des dépendances.
 
 ### API Endpoints
 
@@ -73,8 +76,8 @@ Listez ici les différents endpoints de votre API et décrivez brièvement leur 
 
 Exemple :
 
-* `GET /` : Renvoie un message de bienvenue.
-* `POST /data` : Ajoute de nouvelles données à la base.
+- `GET /` : Renvoie un message de bienvenue.
+- `POST /data` : Ajoute de nouvelles données à la base.
 
 ### Contribution
 
