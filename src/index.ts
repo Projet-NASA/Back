@@ -3,10 +3,13 @@ import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+import routerComment from "./Routes/commentRoute";
+import routerExperience from "./Routes/experienceRoute";
+import routerJob from "./Routes/jobsRoute";
+import routerLike from "./Routes/likeRoute";
+import routerPost from "./Routes/postRoute";
 import routerTest from "./Routes/testRoute";
 import routerUser from "./Routes/userRoute";
-
-import { createUser } from "./middleware/userMiddleWare";
 import run from "./server";
 
 const app = express();
@@ -20,7 +23,11 @@ app.use(express.json());
 
 app.use("/", routerTest);
 app.use("/user", routerUser);
-app.post("/createUser", createUser);
+app.use("/comment", routerComment);
+app.use("/experience", routerExperience);
+app.use("/job", routerJob);
+app.use("/post", routerPost);
+app.use("/like", routerLike);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

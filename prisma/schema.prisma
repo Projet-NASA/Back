@@ -26,10 +26,10 @@ model User {
   lastName    String
   email       String       @unique
   password    String
-  phone       String       @unique
-  country     String
-  city        String
-  dateofbirth DateTime
+  phone       String?       @unique
+  country     String?
+  city        String?
+  dateofbirth DateTime?
   posts       Post[]
   likes       Like[]
   comments    Comment[]
@@ -46,6 +46,7 @@ model experience {
   from        DateTime
   to          DateTime
   current     Boolean
+  type        String
   description String
   userId      String   @db.ObjectId
   user        User     @relation(fields: [userId], references: [id])
