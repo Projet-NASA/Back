@@ -3,6 +3,7 @@ import prisma from "../prisma";
 
 export const createComment = async (req: Request, res: Response) => {
   const { message, userId, postId } = req.body;
+
   try {
     const comment = await prisma.comment.create({
       data: {

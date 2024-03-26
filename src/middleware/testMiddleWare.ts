@@ -3,6 +3,7 @@ import prisma from "../prisma";
 
 export const userTestMiddleWare = async (req: Request, res: Response) => {
   const { firstName, email, password } = req.body;
+
   try {
     const user = await prisma.user.create({
       data: {

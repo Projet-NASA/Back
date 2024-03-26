@@ -13,6 +13,7 @@ export const createExperience = async (req: Request, res: Response) => {
     description,
     userId,
   } = req.body;
+
   try {
     const experience = await prisma.experience.create({
       data: {

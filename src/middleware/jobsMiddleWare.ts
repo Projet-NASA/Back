@@ -4,6 +4,7 @@ import prisma from "../prisma";
 export const createJob = async (req: Request, res: Response) => {
   const { title, company, location, type, from, to, description, userId } =
     req.body;
+
   try {
     const job = await prisma.jobs.create({
       data: {

@@ -3,6 +3,7 @@ import prisma from "../prisma";
 
 export const createPost = async (req: Request, res: Response) => {
   const { title, message, userId } = req.body;
+
   try {
     const post = await prisma.post.create({
       data: {

@@ -3,6 +3,7 @@ import prisma from "../prisma";
 
 export const createLike = async (req: Request, res: Response) => {
   const { postId, userId } = req.body;
+
   try {
     await prisma.like.create({
       data: {
