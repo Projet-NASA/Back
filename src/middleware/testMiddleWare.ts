@@ -2,12 +2,26 @@ import { Request, Response } from "express";
 import prisma from "../prisma";
 
 export const userTestMiddleWare = async (req: Request, res: Response) => {
-  const { firstName, email, password } = req.body;
+  const {
+    firstName,
+    lastName,
+    phone,
+    country,
+    city,
+    dateofbirth,
+    email,
+    password,
+  } = req.body;
 
   try {
     const user = await prisma.user.create({
       data: {
         firstName,
+        lastName,
+        phone,
+        country,
+        city,
+        dateofbirth,
         email,
         password,
       },
