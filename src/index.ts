@@ -7,7 +7,9 @@ import routerTest from "./Routes/testRoute";
 import routerUser from "./Routes/userRoute";
 import routerComment from "./Routes/commentRoute";
 import routerExperience from "./Routes/experienceRoute";
-
+import routerJob from "./Routes/jobsRoute";
+import routerPost from "./Routes/postRoute";
+import routerLike from "./Routes/likeRoute";
 import run from "./server";
 
 const app = express();
@@ -23,6 +25,9 @@ app.use("/", routerTest);
 app.use("/user", routerUser);
 app.use("/comment", routerComment);
 app.use("/experience", routerExperience);
+app.use("/job", routerJob);
+app.use("/post", routerPost);
+app.use("/like", routerLike);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
