@@ -42,27 +42,37 @@ export const getPosts = async (req: Request, res: Response) => {
 };
 
 export const getPost = async (req: Request, res: Response) => {
-    try {
-        const posts = await prisma.post.findMany({
-            include: {
-                user: true,
-                comments: true,
-                userliked: true,
-            }
-        });
-               for (const post of posts) {
-            const likesCount = await prisma.like.count({
-                where: { postId: post.id },
-            });
-            await prisma.post.update({
-                where: { id: post.id },
-                data: { like: likesCount },
-            });
-        }
-        res.status(200).json(posts);
-    } catch (error) {
-        res.status(500).json({ error: "Something went wrong" });
+  const { id } = req.params;
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id },
+      include: {
+        user: true, 
+        comments: {
+          include: {
+            user: true, 
+          },
+        },
+        userliked: true, 
+      },
+    });
+
+    if (post) {
+      const likesCount = await prisma.like.count({
+        where: { postId: id },
+      });
+      await prisma.post.update({
+        where: { id },
+        data: { like: likesCount },
+      });
+
+      res.status(200).json(post);
+    } else {
+      res.status(404).json({ error: "Post not found" });
     }
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
 };
 
 export const updatePost = async (req: Request, res: Response) => {
