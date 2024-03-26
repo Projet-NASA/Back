@@ -23,11 +23,13 @@ model User {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
   createdAt   DateTime     @default(now())
   firstName   String
-  lastName    String?
+  lastName    String
   email       String       @unique
   password    String
-  phone       String?      @unique
-  country     String?
+  phone       String       @unique
+  country     String
+  city        String
+  dateofbirth DateTime
   posts       Post[]
   likes       Like[]
   comments    Comment[]
