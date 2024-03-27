@@ -10,6 +10,7 @@ import routerLike from "./Routes/likeRoute";
 import routerPost from "./Routes/postRoute";
 import routerTest from "./Routes/testRoute";
 import routerUser from "./Routes/userRoute";
+import routerFollower from "./Routes/follower.Route";
 import run from "./server";
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/experience", routerExperience);
 app.use("/job", routerJob);
 app.use("/post", routerPost);
 app.use("/like", routerLike);
+app.use("/follower", routerFollower);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
