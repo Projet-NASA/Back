@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "tsc && prisma generate && move-dist",
+    "build": "tsc && prisma generate",
     "move-dist": "move dist public || mv dist public",
     "start": "bun src/index.ts",
     "dev": "bun src/index.ts"
