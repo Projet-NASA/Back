@@ -74,4 +74,3 @@ export const deleteFollower = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
-
