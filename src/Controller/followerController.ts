@@ -27,4 +27,3 @@ export const updateFollower = async (req: Request, res: Response) => {
 export const deleteFollower = async (req: Request, res: Response) => {
   await deleteFollowerFromMiddleware(req, res);
 };
-
