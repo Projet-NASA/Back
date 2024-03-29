@@ -2,12 +2,11 @@ import { Request, Response } from "express";
 import prisma from "../prisma";
 
 export const createPost = async (req: Request, res: Response) => {
-  const { title, message, userId } = req.body;
+  const {  message, userId } = req.body;
 
   try {
     const post = await prisma.post.create({
       data: {
-        title,
         message,
         userId,
       },
@@ -78,14 +77,13 @@ export const getPost = async (req: Request, res: Response) => {
 
 export const updatePost = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { title, message } = req.body;
+  const { message } = req.body;
   try {
     const updatedPost = await prisma.post.update({
       where: {
         id: id,
       },
       data: {
-        title,
         message,
       },
     });
