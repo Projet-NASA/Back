@@ -5,7 +5,8 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./public"
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */

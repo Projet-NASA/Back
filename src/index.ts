@@ -5,12 +5,12 @@ import helmet from "helmet";
 import morgan from "morgan";
 import routerComment from "./Routes/commentRoute";
 import routerExperience from "./Routes/experienceRoute";
+import routerFollower from "./Routes/follower.Route";
 import routerJob from "./Routes/jobsRoute";
 import routerLike from "./Routes/likeRoute";
 import routerPost from "./Routes/postRoute";
 import routerTest from "./Routes/testRoute";
 import routerUser from "./Routes/userRoute";
-import routerFollower from "./Routes/follower.Route";
 import run from "./server";
 
 const app = express();

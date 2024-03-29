@@ -17,7 +17,7 @@ export default async function run() {
     await client.connect();
     await client.db("Nasa").command({ ping: 1 });
     console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
+      "Pinged your deployment. You successfully connected to MongoDB!",
     );
   } catch (e) {
     console.error("Error connecting to MongoDB: ", e);
