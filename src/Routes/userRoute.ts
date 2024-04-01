@@ -6,11 +6,12 @@ import {
   getUsers,
   updateUser,
 } from "../Controller/userController";
+import { redirectIfAuthenticated } from "../middleware/auth";
 import { loginUser } from "../middleware/userMiddleWare";
 
 const routerUser = Router();
 
-routerUser.post("/createUser", createUser);
+routerUser.post("/createUser", redirectIfAuthenticated, createUser);
 routerUser.get("/User", getUsers);
 routerUser.get("/OneUser/:id", getUser);
 routerUser.put("/User/:id", updateUser);

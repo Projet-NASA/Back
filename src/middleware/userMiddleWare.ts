@@ -140,7 +140,8 @@ export const loginUser = async (req: Request, res: Response) => {
       expiresIn: "1h",
     });
 
-    res.status(200).json({ message: "connexion réussie", user, token });
+    res.cookie("token", token, { httpOnly: true });
+    res.status(200).json({ message: "connexion réussie", user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "une erreur est survenue" });
