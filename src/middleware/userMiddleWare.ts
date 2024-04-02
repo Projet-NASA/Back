@@ -167,6 +167,11 @@ export const loginUser = async (req: Request, res: Response) => {
     console.log("user with sessions ", userWithSessions);
     console.log("session with user ", sessionWithUser);
 
+    await prisma.session.update({
+      where: { id: session.id },
+      data: { lastConnexion: new Date() },
+    });
+
     res.status(200).json({ message: "connexion réussie", user });
   } catch (error) {
     console.error(error);
