@@ -1,6 +1,15 @@
+import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
+import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { Lucia } from "lucia";
 import prisma from "../prisma";
+
+const client = new PrismaClient();
+
+const adapter = new PrismaAdapter(client.session, client.user);
+
+const lucia = new Lucia(adapter);
 
 const bcrypt = require("bcrypt");
 
@@ -131,6 +140,11 @@ export const loginUser = async (req: Request, res: Response) => {
     if (!isPasswordValid) {
       return res.status(400).json({ error: "mot de passe incorrect" });
     }
+
+    const session = await lucia.createSession(user.id, {});
+
+    res.cookie("sessionId", session.id, { httpOnly: true });
+    console.log("cookie set ", session.id);
 
     if (!process.env.JWT_SECRET) {
       throw new Error(" la clé JWT_SECRET n'est pas définie");
