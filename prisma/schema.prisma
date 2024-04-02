@@ -45,7 +45,7 @@ model experience {
   company     String
   location    String
   from        DateTime
-  to          DateTime
+  to          DateTime @default(now())
   current     Boolean
   type        String
   description String
