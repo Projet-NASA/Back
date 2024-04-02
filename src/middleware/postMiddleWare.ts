@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import prisma from "../prisma";
 
 export const createPost = async (req: Request, res: Response) => {
-  const {  message, userId } = req.body;
+  const { message, userId } = req.body;
 
   try {
     const post = await prisma.post.create({

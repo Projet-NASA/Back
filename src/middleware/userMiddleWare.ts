@@ -1,7 +1,6 @@
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import { Lucia } from "lucia";
 import prisma from "../prisma";
 
@@ -142,22 +141,57 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     const session = await lucia.createSession(user.id, {});
+    console.log("session created ", session);
 
-    res.cookie("sessionId", session.id, { httpOnly: true });
+    res.cookie("sessionId", session.id);
     console.log("cookie set ", session.id);
 
-    if (!process.env.JWT_SECRET) {
-      throw new Error(" la clé JWT_SECRET n'est pas définie");
-    }
-
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+    const userWithSessions = await prisma.user.findUnique({
+      where: {
+        id: user.id,
+      },
+      include: {
+        sessions: true,
+      },
     });
 
-    res.cookie("token", token, { httpOnly: true });
+    const sessionWithUser = await prisma.session.findUnique({
+      where: {
+        id: session.id,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    console.log("user with sessions ", userWithSessions);
+    console.log("session with user ", sessionWithUser);
+
     res.status(200).json({ message: "connexion réussie", user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "une erreur est survenue" });
   }
+};
+
+export const getSessionUserFromMiddleware = async (
+  req: Request,
+  res: Response,
+) => {
+  const sessionId = req.cookies.sessionId;
+
+  if (!sessionId) {
+    return res.status(401).json({ error: "Non autorisé" });
+  }
+
+  const session = await prisma.session.findUnique({
+    where: { id: sessionId },
+    include: { user: true },
+  });
+
+  if (!session) {
+    return res.status(401).json({ error: "Non autorisé" });
+  }
+
+  res.json(session.user);
 };

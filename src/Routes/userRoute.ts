@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createUser,
   deleteUser,
+  getSessionUser,
   getUser,
   getUsers,
   updateUser,
@@ -17,5 +18,6 @@ routerUser.get("/OneUser/:id", getUser);
 routerUser.put("/User/:id", updateUser);
 routerUser.delete("/User/:id", deleteUser);
 routerUser.post("/loginUser", loginUser);
+routerUser.get("/sessionUser", getSessionUser);
 
 export default routerUser;
