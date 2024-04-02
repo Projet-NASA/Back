@@ -174,10 +174,7 @@ export const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getSessionUserFromMiddleware = async (
-  req: Request,
-  res: Response,
-) => {
+export const getSessionUser = async (req: Request, res: Response) => {
   const sessionId = req.cookies.sessionId;
 
   if (!sessionId) {

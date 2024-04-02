@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import {
   createUser as createUserFromMiddleware,
   deleteUser as deleteUserFromMiddleware,
-  getSessionUserFromMiddleware,
+  getSessionUser as getSessionUserFromMiddlewarre,
   getUser as getUserFromMiddleware,
   getUsers as getUsersFromMiddleware,
   updateUser as updateUserFromMiddleware,
@@ -29,5 +29,5 @@ export const deleteUser = async (req: Request, res: Response) => {
 };
 
 export const getSessionUser = async (req: Request, res: Response) => {
-  await getSessionUserFromMiddleware(req, res);
+  await getSessionUserFromMiddlewarre(req, res);
 };
