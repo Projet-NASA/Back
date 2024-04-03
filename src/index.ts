@@ -23,8 +23,8 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(morgan("tiny"));
 const corsOptions = {
-  origin: 'http://localhost:3000', // L'URL de votre frontend Nuxt
-  credentials: true, // Permettre les credentials (cookies, sessions, etc.)
+  origin: 'http://localhost:3000', 
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
