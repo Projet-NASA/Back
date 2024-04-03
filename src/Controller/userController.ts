@@ -2,9 +2,10 @@ import { Request, Response } from "express";
 import {
   createUser as createUserFromMiddleware,
   deleteUser as deleteUserFromMiddleware,
-  getSessionUser as getSessionUserFromMiddlewarre,
+  getUserSessions as getSessionUserFromMiddlewarre,
   getUser as getUserFromMiddleware,
   getUsers as getUsersFromMiddleware,
+  logoutUser as logoutUserFromMiddleware,
   updateUser as updateUserFromMiddleware,
 } from "../middleware/userMiddleWare";
 
@@ -28,6 +29,13 @@ export const deleteUser = async (req: Request, res: Response) => {
   await deleteUserFromMiddleware(req, res);
 };
 
-export const getSessionUser = async (req: Request, res: Response) => {
+export const getUserSessionsController = async (
+  req: Request,
+  res: Response,
+) => {
   await getSessionUserFromMiddlewarre(req, res);
+};
+
+export const logoutUser = async (req: Request, res: Response) => {
+  await logoutUserFromMiddleware(req, res);
 };

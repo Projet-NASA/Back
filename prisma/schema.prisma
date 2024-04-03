@@ -11,6 +11,7 @@ model Session {
     id        String   @id @map("_id")
     userId    String   @db.ObjectId
     expiresAt DateTime
+    lastConnexion  DateTime @default(now())
     user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
   }
 
