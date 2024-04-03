@@ -158,9 +158,6 @@ export const loginUser = async (req: Request, res: Response) => {
       });
     }
 
-    //  res.cookie("sessionId", session.id);
-    // console.log("cookie set ", session.id);
-
     res.status(200).json({ message: "connexion réussie", user });
   } catch (error) {
     console.error(error);
