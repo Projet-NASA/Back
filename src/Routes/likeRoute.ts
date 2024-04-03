@@ -4,8 +4,8 @@ import {
   createLike,
   deleteLike,
   getLike,
-  getLikes,
   getLikeByPostId,
+  getLikes,
   getLikesByUser,
   updateLike,
 } from "../Controller/likeController";

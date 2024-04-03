@@ -3,9 +3,9 @@ import { Request, Response } from "express";
 import {
   createLike as createLikeFromMiddleware,
   deleteLike as deleteLikeFromMiddleware,
+  getLikeByPostId as getLikeByPostIdFromMiddleware,
   getLike as getLikeFromMiddleware,
   getLikesByUser as getLikesByUserFromMiddleware,
-  getLikeByPostId as getLikeByPostIdFromMiddleware,
   getLikes as getLikesFromMiddleware,
   updateLike as updateLikeFromMiddleware,
 } from "../middleware/likeMiddleWare";

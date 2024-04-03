@@ -166,30 +166,38 @@ export const loginUser = async (req: Request, res: Response) => {
 };
 
 export const getUserSessions = async (req: Request, res: Response) => {
-  const userId = req.params.userId;
+  const sessionId = req.cookies.sessionId;
 
-  if (!userId) {
-    return res.status(400).json({ error: "aucun ID d'utilisateur fourni" });
+  if (!sessionId) {
+    return res.status(400).json({ error: "Aucune session active trouvée" });
   }
 
   try {
-    const sessions = await lucia.getUserSessions(userId);
+    const session = await lucia.getUserSessions(sessionId);
+
+    if (!session) {
+      return res.status(400).json({ error: "Session non trouvée" });
+    }
 
     const user = await prisma.user.findUnique({
       where: {
-        id: userId,
+        id: session["userId"],
       },
     });
 
-    res.json({ sessions, user });
+    if (!user) {
+      return res.status(400).json({ error: "utilisateur non trouvé" });
+    }
+
+    res.json({ session, user });
   } catch (error) {
     console.error(
-      "erreur lors de la récupération des sessions ou des informations de profil de l'utilisateur",
+      "erreur lors de la récupération de la session ou des informations de l'utilisateur",
       error,
     );
     return res.status(500).json({
       error:
-        "une erreur est survenue lors de la récupération des sessions ou des informations de profil de l'utilisateur",
+        "une erreur est survenue lors de la récupération de la session ou des informations de l'utilisateur",
     });
   }
 };
