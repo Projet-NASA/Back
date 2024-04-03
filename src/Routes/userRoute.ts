@@ -1,13 +1,16 @@
 import { Router } from "express";
 import {
   deleteUser,
-  getSessionUser,
   getUser,
   getUsers,
   updateUser,
 } from "../Controller/userController";
 
-import { loginUser } from "../middleware/userMiddleWare";
+import {
+  getUserSessions,
+  loginUser,
+  logoutUser,
+} from "../middleware/userMiddleWare";
 
 const routerUser = Router();
 
@@ -16,6 +19,7 @@ routerUser.get("/OneUser/:id", getUser);
 routerUser.put("/User/:id", updateUser);
 routerUser.delete("/User/:id", deleteUser);
 routerUser.post("/loginUser", loginUser);
-routerUser.get("/sessionUser", getSessionUser);
+routerUser.get("/User/:id/sessions", getUserSessions);
+routerUser.post("/logoutUser", logoutUser);
 
 export default routerUser;

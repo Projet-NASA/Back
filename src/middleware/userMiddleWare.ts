@@ -1,14 +1,13 @@
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import { Lucia } from "lucia";
+import { Lucia, TimeSpan } from "lucia";
 import prisma from "../prisma";
 
-const client = new PrismaClient();
+const adapter = new PrismaAdapter(prisma.session, prisma.user);
 
-const adapter = new PrismaAdapter(client.session, client.user);
-
-const lucia = new Lucia(adapter);
+export const lucia = new Lucia(adapter, {
+  sessionExpiresIn: new TimeSpan(1, "d"),
+});
 
 const bcrypt = require("bcrypt");
 
@@ -109,6 +108,8 @@ export const updateUser = async (req: Request, res: Response) => {
 export const deleteUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
+    await lucia.invalidateUserSessions(id);
+
     await prisma.user.delete({
       where: {
         id: id,
@@ -140,37 +141,25 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "mot de passe incorrect" });
     }
 
-    const session = await lucia.createSession(user.id, {});
-    console.log("session created ", session);
+    try {
+      const session = await lucia.createSession(user.id, { userId: user.id });
+      console.log("session created ", session);
 
-    res.cookie("sessionId", session.id);
-    console.log("cookie set ", session.id);
+      const sessionCookie = lucia.createSessionCookie(session.id);
+      res.setHeader("set-Cookie", sessionCookie.serialize());
+      console.log("cookie défini", session.id);
+    } catch (error) {
+      console.error(
+        "erreur lors de la création de la session ou du cookie de session",
+        error,
+      );
+      return res.status(500).json({
+        error: "une erreur est survenue lors de la création de la session",
+      });
+    }
 
-    const userWithSessions = await prisma.user.findUnique({
-      where: {
-        id: user.id,
-      },
-      include: {
-        sessions: true,
-      },
-    });
-
-    const sessionWithUser = await prisma.session.findUnique({
-      where: {
-        id: session.id,
-      },
-      include: {
-        user: true,
-      },
-    });
-
-    console.log("user with sessions ", userWithSessions);
-    console.log("session with user ", sessionWithUser);
-
-    await prisma.session.update({
-      where: { id: session.id },
-      data: { lastConnexion: new Date() },
-    });
+    //  res.cookie("sessionId", session.id);
+    // console.log("cookie set ", session.id);
 
     res.status(200).json({ message: "connexion réussie", user });
   } catch (error) {
@@ -179,21 +168,52 @@ export const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getSessionUser = async (req: Request, res: Response) => {
+export const getUserSessions = async (req: Request, res: Response) => {
+  const userId = req.params.userId;
+
+  if (!userId) {
+    return res.status(400).json({ error: "aucun ID d'utilisateur fourni" });
+  }
+
+  try {
+    const sessions = await lucia.getUserSessions(userId);
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    res.json({ sessions, user });
+  } catch (error) {
+    console.error(
+      "erreur lors de la récupération des sessions ou des informations de profil de l'utilisateur",
+      error,
+    );
+    return res.status(500).json({
+      error:
+        "une erreur est survenue lors de la récupération des sessions ou des informations de profil de l'utilisateur",
+    });
+  }
+};
+
+export const logoutUser = async (req: Request, res: Response) => {
   const sessionId = req.cookies.sessionId;
 
   if (!sessionId) {
-    return res.status(401).json({ error: "Non autorisé" });
+    return res.status(400).json({ error: "aucune session active" });
   }
 
-  const session = await prisma.session.findUnique({
-    where: { id: sessionId },
-    include: { user: true },
-  });
+  try {
+    await lucia.invalidateSession(sessionId);
 
-  if (!session) {
-    return res.status(401).json({ error: "Non autorisé" });
+    res.clearCookie("sessionId");
+
+    res.json({ message: "déconnexion réussie" });
+  } catch (error) {
+    console.error("erreur lors de la déconnexion", error);
+    return res
+      .status(500)
+      .json({ error: "une erreur est survenue lors de la déconnexion" });
   }
-
-  res.json(session.user);
 };
