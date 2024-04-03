@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import {
   createUser as createUserFromMiddleware,
   deleteUser as deleteUserFromMiddleware,
-  getUserSessions as getSessionUserFromMiddlewarre,
+  newGetUserSessions as getSessionUserFromMiddlewarre,
   getUser as getUserFromMiddleware,
   getUsers as getUsersFromMiddleware,
   logoutUser as logoutUserFromMiddleware,

@@ -8,9 +8,9 @@ import {
 } from "../Controller/userController";
 
 import {
-  getUserSessions,
   loginUser,
   logoutUser,
+  newGetUserSessions,
 } from "../middleware/userMiddleWare";
 
 const routerUser = Router();
@@ -21,7 +21,7 @@ routerUser.get("/OneUser/:id", getUser);
 routerUser.put("/User/:id", updateUser);
 routerUser.delete("/User/:id", deleteUser);
 routerUser.post("/loginUser", loginUser);
-routerUser.get("/session", getUserSessions);
+routerUser.get("/Session", newGetUserSessions);
 routerUser.post("/logoutUser", logoutUser);
 
 export default routerUser;

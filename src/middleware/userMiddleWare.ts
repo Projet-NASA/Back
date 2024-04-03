@@ -82,6 +82,31 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
+export const getInfoUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ error: "Aucun ID utilisateur trouvé" });
+  }
+
+  try {
+    const retrievedUser = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!retrievedUser) {
+      return res.status(400).json({ error: "utilisateur non trouvé" });
+    }
+
+    res.status(200).json(retrievedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "une erreur est survenue" });
+  }
+};
+
 export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { firstName, lastName, email } = req.body;
@@ -145,6 +170,8 @@ export const loginUser = async (req: Request, res: Response) => {
       const session = await lucia.createSession(user.id, { userId: user.id });
       console.log("session created ", session);
 
+      res.cookie("sessionId", session.id);
+
       const sessionCookie = lucia.createSessionCookie(session.id);
       res.setHeader("set-Cookie", sessionCookie.serialize());
       console.log("cookie défini", session.id);
@@ -198,6 +225,37 @@ export const getUserSessions = async (req: Request, res: Response) => {
     return res.status(500).json({
       error:
         "une erreur est survenue lors de la récupération de la session ou des informations de l'utilisateur",
+    });
+  }
+};
+
+export const newGetUserSessions = async (req: Request, res: Response) => {
+  const userId = req.headers;
+
+  console.log("ici");
+  if (!userId) {
+    return res.status(400).json({ error: "Aucun ID utilisateur trouvé" });
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId.toString(),
+      },
+    });
+    if (!user) {
+      return res.status(400).json({ error: "utilisateur non trouvé" });
+    }
+
+    res.json({ user });
+  } catch (error) {
+    console.error(
+      "erreur lors de la récupération des informations de l'utilisateur",
+      error,
+    );
+    return res.status(500).json({
+      error:
+        "une erreur est survenue lors de la récupération des informations de l'utilisateur",
     });
   }
 };
