@@ -21,7 +21,7 @@ routerUser.get("/OneUser/:id", getUser);
 routerUser.put("/User/:id", updateUser);
 routerUser.delete("/User/:id", deleteUser);
 routerUser.post("/loginUser", loginUser);
-routerUser.get("/User/:id/sessions", getUserSessions);
+routerUser.get("/session", getUserSessions);
 routerUser.post("/logoutUser", logoutUser);
 
 export default routerUser;
