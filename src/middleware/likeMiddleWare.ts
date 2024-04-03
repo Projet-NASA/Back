@@ -78,7 +78,7 @@ export const getLikeByPostId = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
   }
-}
+};
 
 export const deleteLike = async (req: Request, res: Response) => {
   const { id } = req.params;

@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
@@ -13,8 +14,6 @@ import routerPost from "./Routes/postRoute";
 import routerTest from "./Routes/testRoute";
 import routerUser from "./Routes/userRoute";
 import run from "./server";
-import cookieParser from 'cookie-parser';
-
 
 const app = express();
 const port = process.env.PORT || 3003;
@@ -23,8 +22,13 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(morgan("tiny"));
 const corsOptions = {
+<<<<<<< Updated upstream
   origin: 'http://localhost:3000', 
   credentials: true,
+=======
+  origin: "http://localhost:3000", // L'URL de votre frontend Nuxt
+  credentials: true, // Permettre les credentials (cookies, sessions, etc.)
+>>>>>>> Stashed changes
 };
 
 app.use(cors(corsOptions));
