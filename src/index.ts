@@ -12,10 +12,13 @@ import routerPost from "./Routes/postRoute";
 import routerTest from "./Routes/testRoute";
 import routerUser from "./Routes/userRoute";
 import run from "./server";
+import cookieParser from 'cookie-parser';
+
 
 const app = express();
 const port = process.env.PORT || 3003;
 
+app.use(cookieParser());
 app.use(helmet());
 app.use(morgan("tiny"));
 

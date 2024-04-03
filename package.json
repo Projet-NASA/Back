@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
@@ -29,6 +30,8 @@
     "@typescript-eslint/eslint-plugin": "^7.5.0",
     "@typescript-eslint/parser": "^7.5.0",
     "bcrypt": "^5.1.1",
+    "cookie": "^0.6.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "eslint-config-prettier": "^9.1.0",
@@ -40,6 +43,7 @@
     "lucia": "^3.1.1",
     "mongodb": "^6.5.0",
     "morgan": "^1.10.0",
+    "parser": "^0.1.4",
     "prettier": "^3.2.5"
   },
   "module": "index.ts",
