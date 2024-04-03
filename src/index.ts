@@ -22,8 +22,12 @@ const port = process.env.PORT || 3003;
 app.use(cookieParser());
 app.use(helmet());
 app.use(morgan("tiny"));
+const corsOptions = {
+  origin: 'http://localhost:3000', // L'URL de votre frontend Nuxt
+  credentials: true, // Permettre les credentials (cookies, sessions, etc.)
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/", routerTest);
