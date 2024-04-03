@@ -5,6 +5,7 @@ import {
   deleteLike as deleteLikeFromMiddleware,
   getLike as getLikeFromMiddleware,
   getLikesByUser as getLikesByUserFromMiddleware,
+  getLikeByPostId as getLikeByPostIdFromMiddleware,
   getLikes as getLikesFromMiddleware,
   updateLike as updateLikeFromMiddleware,
 } from "../middleware/likeMiddleWare";
@@ -19,6 +20,10 @@ export const getLikes = async (req: Request, res: Response) => {
 
 export const getLike = async (req: Request, res: Response) => {
   await getLikeFromMiddleware(req, res);
+};
+
+export const getLikeByPostId = async (req: Request, res: Response) => {
+  await getLikeByPostIdFromMiddleware(req, res);
 };
 
 export const updateLike = async (req: Request, res: Response) => {

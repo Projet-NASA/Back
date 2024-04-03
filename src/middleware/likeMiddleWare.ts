@@ -66,6 +66,20 @@ export const updateLike = async (req: Request, res: Response) => {
   }
 };
 
+export const getLikeByPostId = async (req: Request, res: Response) => {
+  const { postId } = req.params;
+  try {
+    const like = await prisma.like.findFirst({
+      where: {
+        postId: postId,
+      },
+    });
+    res.status(200).json(like);
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+}
+
 export const deleteLike = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {

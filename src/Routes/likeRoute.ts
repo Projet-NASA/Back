@@ -5,6 +5,7 @@ import {
   deleteLike,
   getLike,
   getLikes,
+  getLikeByPostId,
   getLikesByUser,
   updateLike,
 } from "../Controller/likeController";
@@ -15,6 +16,7 @@ routerLike.post("/createLike", createLike);
 routerLike.get("/Like", getLikes);
 routerLike.get("/OneLike/:id", getLike);
 routerLike.put("/Like/:id", updateLike);
+routerLike.get("/LikeByPostId/:id", getLikeByPostId);
 routerLike.delete("/Like/:id", deleteLike);
 routerLike.get("/LikeByUser/:id", getLikesByUser);
 
