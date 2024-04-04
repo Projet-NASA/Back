@@ -6,6 +6,8 @@ import {
   getComment as getCommentFromMiddleware,
   getComments as getCommentsFromMiddleware,
   updateComment as updateCommentFromMiddleware,
+  getCommentsByPost as getCommentsByPostFromMiddleware,
+  getCommentsByUser as getCommentsByUserFromMiddleware,
 } from "../middleware/commentMiddleWare";
 
 export const createComment = async (req: Request, res: Response) => {
@@ -26,4 +28,12 @@ export const updateComment = async (req: Request, res: Response) => {
 
 export const deleteComment = async (req: Request, res: Response) => {
   await deleteCommentFromMiddleware(req, res);
+};
+
+export const getCommentsByUser = async (req: Request, res: Response) => {
+  await getCommentsByUserFromMiddleware(req, res);
+};
+
+export const getCommentsByPost = async (req: Request, res: Response) => {
+  await getCommentsByPostFromMiddleware(req, res);
 };
