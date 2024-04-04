@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
 
-export const createLike = async (req: Request, res: Response) => {
+export const createLike = async (req: Request, res: Response): Promise<void> => {
   const { postId, userId } = req.body;
 
   try {
@@ -11,15 +11,19 @@ export const createLike = async (req: Request, res: Response) => {
         userId,
       },
     });
+
     const likesCount = await prisma.like.count({
       where: { postId },
     });
+
     await prisma.post.update({
       where: { id: postId },
       data: { like: likesCount },
     });
+
     res.status(200).json({ message: "Like added successfully" });
   } catch (error) {
+    console.error("Error creating like:", error);
     res.status(500).json({ error: "Something went wrong" });
   }
 };
@@ -47,24 +51,6 @@ export const getLike = async (req: Request, res: Response) => {
   }
 };
 
-export const updateLike = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { userId, postId } = req.body;
-  try {
-    const updatedLike = await prisma.like.update({
-      where: {
-        id: id,
-      },
-      data: {
-        userId,
-        postId,
-      },
-    });
-    res.status(200).json({ message: "Like updated successfully", updatedLike });
-  } catch (error) {
-    res.status(500).json({ error: "Something went wrong" });
-  }
-};
 
 export const getLikeByPostId = async (req: Request, res: Response) => {
   const { postId } = req.params;
@@ -80,16 +66,32 @@ export const getLikeByPostId = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteLike = async (req: Request, res: Response) => {
+export const deleteLike = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
+
   try {
-    await prisma.like.delete({
-      where: {
-        id: id,
-      },
+    const like = await prisma.like.findUnique({
+      where: { id },
+      select: { postId: true }     
     });
+
+    if (!like) {
+      res.status(404).json({ message: "Like not found" });
+      return;
+    }
+
+    await prisma.post.update({
+      where: { id: like.postId },
+      data: { like: { decrement: 1 } },
+    });
+
+    await prisma.like.delete({
+      where: { id },
+    });
+
     res.status(200).json({ message: "Like deleted successfully" });
   } catch (error) {
+    console.error("Error deleting like:", error);
     res.status(500).json({ error: "Something went wrong" });
   }
 };
