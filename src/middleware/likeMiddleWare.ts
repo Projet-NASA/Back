@@ -109,3 +109,27 @@ export const getLikesByUser = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+
+export const findLikeByPostAndUserId = async (req: Request, res: Response): Promise<void> => {
+  const { postId, userId } = req.params;
+
+  try {
+    const like = await prisma.like.findFirst({
+      where: {
+        AND: [
+          { postId: postId },
+          { userId: userId }
+        ]
+      }
+    });
+
+    if (like) {
+      res.status(200).json(like);
+    } else {
+      res.status(404).json({ message: 'Like not found' });
+    }
+  } catch (error) {
+    console.error("Error finding like:", error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
