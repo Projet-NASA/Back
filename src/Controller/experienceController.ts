@@ -6,6 +6,7 @@ import {
   getExperience as getExperienceFromMiddleware,
   getExperiences as getExperiencesFromMiddleware,
   updateExperience as updateExperienceFromMiddleware,
+  getAllexperiencesByUser as getAllexperiencesByUserFromMiddleware,
 } from "../middleware/experienceMiddleWare";
 
 export const createExperience = async (req: Request, res: Response) => {
@@ -26,4 +27,8 @@ export const updateExperience = async (req: Request, res: Response) => {
 
 export const deleteExperience = async (req: Request, res: Response) => {
   await deleteExperienceFromMiddleware(req, res);
+};
+
+export const getAllexperiencesByUser = async (req: Request, res: Response) => {
+  await getAllexperiencesByUserFromMiddleware(req, res);
 };

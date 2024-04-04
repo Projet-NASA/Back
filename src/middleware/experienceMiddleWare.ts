@@ -100,3 +100,17 @@ export const deleteExperience = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+
+export const getAllexperiencesByUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const experiences = await prisma.experience.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+    res.status(200).json(experiences);
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+}
