@@ -4,10 +4,10 @@ import {
   createComment as createCommentFromMiddleware,
   deleteComment as deleteCommentFromMiddleware,
   getComment as getCommentFromMiddleware,
-  getComments as getCommentsFromMiddleware,
-  updateComment as updateCommentFromMiddleware,
   getCommentsByPost as getCommentsByPostFromMiddleware,
   getCommentsByUser as getCommentsByUserFromMiddleware,
+  getComments as getCommentsFromMiddleware,
+  updateComment as updateCommentFromMiddleware,
 } from "../middleware/commentMiddleWare";
 
 export const createComment = async (req: Request, res: Response) => {

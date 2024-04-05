@@ -5,9 +5,9 @@ import {
   deleteComment,
   getComment,
   getComments,
-  updateComment,
   getCommentsByPost,
   getCommentsByUser,
+  updateComment,
 } from "../Controller/commentController";
 
 const routerComment = Router();

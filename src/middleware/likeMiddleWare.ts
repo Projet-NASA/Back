@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
 
-export const createLike = async (req: Request, res: Response): Promise<void> => {
+export const createLike = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const { postId, userId } = req.body;
 
   try {
@@ -51,7 +54,6 @@ export const getLike = async (req: Request, res: Response) => {
   }
 };
 
-
 export const getLikeByPostId = async (req: Request, res: Response) => {
   const { postId } = req.params;
   try {
@@ -66,13 +68,16 @@ export const getLikeByPostId = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteLike = async (req: Request, res: Response): Promise<void> => {
+export const deleteLike = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const { id } = req.params;
 
   try {
     const like = await prisma.like.findUnique({
       where: { id },
-      select: { postId: true }     
+      select: { postId: true },
     });
 
     if (!like) {
@@ -110,23 +115,23 @@ export const getLikesByUser = async (req: Request, res: Response) => {
   }
 };
 
-export const findLikeByPostAndUserId = async (req: Request, res: Response): Promise<void> => {
+export const findLikeByPostAndUserId = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const { postId, userId } = req.params;
 
   try {
     const like = await prisma.like.findFirst({
       where: {
-        AND: [
-          { postId: postId },
-          { userId: userId }
-        ]
-      }
+        AND: [{ postId: postId }, { userId: userId }],
+      },
     });
 
     if (like) {
       res.status(200).json(like);
     } else {
-      res.status(404).json({ message: 'Like not found' });
+      res.status(404).json({ message: "Like not found" });
     }
   } catch (error) {
     console.error("Error finding like:", error);

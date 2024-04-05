@@ -3,10 +3,10 @@ import { Request, Response } from "express";
 import {
   createExperience as createExperienceFromMiddleware,
   deleteExperience as deleteExperienceFromMiddleware,
+  getAllexperiencesByUser as getAllexperiencesByUserFromMiddleware,
   getExperience as getExperienceFromMiddleware,
   getExperiences as getExperiencesFromMiddleware,
   updateExperience as updateExperienceFromMiddleware,
-  getAllexperiencesByUser as getAllexperiencesByUserFromMiddleware,
 } from "../middleware/experienceMiddleWare";
 
 export const createExperience = async (req: Request, res: Response) => {

@@ -3,11 +3,11 @@ import { Request, Response } from "express";
 import {
   createLike as createLikeFromMiddleware,
   deleteLike as deleteLikeFromMiddleware,
+  findLikeByPostAndUserId as findLikeByPostAndUserIdFromMiddleware,
   getLikeByPostId as getLikeByPostIdFromMiddleware,
   getLike as getLikeFromMiddleware,
   getLikesByUser as getLikesByUserFromMiddleware,
   getLikes as getLikesFromMiddleware,
-  findLikeByPostAndUserId as findLikeByPostAndUserIdFromMiddleware,
 } from "../middleware/likeMiddleWare";
 
 export const createLike = async (req: Request, res: Response) => {

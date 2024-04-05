@@ -3,10 +3,10 @@ import { Router } from "express";
 import {
   createExperience,
   deleteExperience,
+  getAllexperiencesByUser,
   getExperience,
   getExperiences,
   updateExperience,
-  getAllexperiencesByUser
 } from "../Controller/experienceController";
 
 const routerExperience = Router();
