@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import {
   createExperience as createExperienceFromMiddleware,
   deleteExperience as deleteExperienceFromMiddleware,
+  getAllexperiencesByUser as getAllexperiencesByUserFromMiddleware,
   getExperience as getExperienceFromMiddleware,
   getExperiences as getExperiencesFromMiddleware,
   updateExperience as updateExperienceFromMiddleware,
@@ -26,4 +27,8 @@ export const updateExperience = async (req: Request, res: Response) => {
 
 export const deleteExperience = async (req: Request, res: Response) => {
   await deleteExperienceFromMiddleware(req, res);
+};
+
+export const getAllexperiencesByUser = async (req: Request, res: Response) => {
+  await getAllexperiencesByUserFromMiddleware(req, res);
 };

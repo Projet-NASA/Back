@@ -1,6 +1,13 @@
+import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import { Lucia, TimeSpan } from "lucia";
 import prisma from "../prisma";
+
+const adapter = new PrismaAdapter(prisma.session, prisma.user);
+
+export const lucia = new Lucia(adapter, {
+  sessionExpiresIn: new TimeSpan(1, "d"),
+});
 
 const bcrypt = require("bcrypt");
 
@@ -75,6 +82,31 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
+export const getInfoUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ error: "Aucun ID utilisateur trouvé" });
+  }
+
+  try {
+    const retrievedUser = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!retrievedUser) {
+      return res.status(400).json({ error: "utilisateur non trouvé" });
+    }
+
+    res.status(200).json(retrievedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "une erreur est survenue" });
+  }
+};
+
 export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { firstName, lastName, email } = req.body;
@@ -101,6 +133,8 @@ export const updateUser = async (req: Request, res: Response) => {
 export const deleteUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
+    await lucia.invalidateUserSessions(id);
+
     await prisma.user.delete({
       where: {
         id: id,
@@ -132,17 +166,117 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "mot de passe incorrect" });
     }
 
-    if (!process.env.JWT_SECRET) {
-      throw new Error(" la clé JWT_SECRET n'est pas définie");
+    try {
+      const session = await lucia.createSession(user.id, { userId: user.id });
+      console.log("session created ", session);
+
+      res.cookie("sessionId", session.id);
+
+      const sessionCookie = lucia.createSessionCookie(session.id);
+      res.setHeader("set-Cookie", sessionCookie.serialize());
+      console.log("cookie défini", session.id);
+    } catch (error) {
+      console.error(
+        "erreur lors de la création de la session ou du cookie de session",
+        error,
+      );
+      return res.status(500).json({
+        error: "une erreur est survenue lors de la création de la session",
+      });
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-
-    res.status(200).json({ message: "connexion réussie", user, token });
+    res.status(200).json({ message: "connexion réussie", user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "une erreur est survenue" });
+  }
+};
+
+export const getUserSessions = async (req: Request, res: Response) => {
+  const sessionId = req.cookies.sessionId;
+
+  if (!sessionId) {
+    return res.status(400).json({ error: "Aucune session active trouvée" });
+  }
+
+  try {
+    const session = await lucia.getUserSessions(sessionId);
+
+    if (!session) {
+      return res.status(400).json({ error: "Session non trouvée" });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session[0].userId,
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "utilisateur non trouvé" });
+    }
+
+    res.json({ session, user });
+  } catch (error) {
+    console.error(
+      "erreur lors de la récupération de la session ou des informations de l'utilisateur",
+      error,
+    );
+    return res.status(500).json({
+      error:
+        "une erreur est survenue lors de la récupération de la session ou des informations de l'utilisateur",
+    });
+  }
+};
+
+export const newGetUserSessions = async (req: Request, res: Response) => {
+  const userId = req.headers;
+
+  console.log("ici");
+  if (!userId) {
+    return res.status(400).json({ error: "Aucun ID utilisateur trouvé" });
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId.toString(),
+      },
+    });
+    if (!user) {
+      return res.status(400).json({ error: "utilisateur non trouvé" });
+    }
+
+    res.json({ user });
+  } catch (error) {
+    console.error(
+      "erreur lors de la récupération des informations de l'utilisateur",
+      error,
+    );
+    return res.status(500).json({
+      error:
+        "une erreur est survenue lors de la récupération des informations de l'utilisateur",
+    });
+  }
+};
+
+export const logoutUser = async (req: Request, res: Response) => {
+  const sessionId = req.cookies.sessionId;
+
+  if (!sessionId) {
+    return res.status(400).json({ error: "aucune session active" });
+  }
+
+  try {
+    await lucia.invalidateSession(sessionId);
+
+    res.clearCookie("sessionId");
+
+    res.json({ message: "déconnexion réussie" });
+  } catch (error) {
+    console.error("erreur lors de la déconnexion", error);
+    return res
+      .status(500)
+      .json({ error: "une erreur est survenue lors de la déconnexion" });
   }
 };
