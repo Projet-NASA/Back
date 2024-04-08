@@ -343,7 +343,7 @@ export const resetPassword = async (req: Request, res: Response) => {
 
   try {
     
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({
       where: {
         resetPasswordToken: token,
 
@@ -357,7 +357,7 @@ export const resetPassword = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     await prisma.user.update({
-      where: { id: user.id },
+      where: { resetPasswordToken: token},
       data: {
         password: hashedPassword,
         resetPasswordToken: null,
