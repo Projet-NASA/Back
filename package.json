@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc && prisma generate",
     "move-dist": "move dist public || mv dist public",
-    "start": "bun src/index.ts",
+    "start": "bunx prisma generate && bun install && bun src/index.ts",
     "dev": "bun src/index.ts"
   },
   "keywords": [],
