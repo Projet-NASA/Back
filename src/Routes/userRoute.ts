@@ -5,6 +5,8 @@ import {
   getUser,
   getUsers,
   updateUser,
+  forgotPassword,
+  resetPassword
 } from "../Controller/userController";
 
 import {
@@ -23,5 +25,7 @@ routerUser.delete("/User/:id", deleteUser);
 routerUser.post("/loginUser", loginUser);
 routerUser.get("/Session", newGetUserSessions);
 routerUser.post("/logoutUser", logoutUser);
+routerUser.post("/forgotPassword", forgotPassword);
+routerUser.post("/resetPassword", resetPassword);
 
 export default routerUser;

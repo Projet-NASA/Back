@@ -2,6 +2,8 @@ import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { Request, Response } from "express";
 import { Lucia, TimeSpan } from "lucia";
 import prisma from "../prisma";
+import  {randomBytes} from "crypto";
+import nodemailer from "nodemailer";
 
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
 
@@ -280,3 +282,93 @@ export const logoutUser = async (req: Request, res: Response) => {
       .json({ error: "une erreur est survenue lors de la déconnexion" });
   }
 };
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  const { email } = req.body;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "utilisateur non trouvé" });
+    }
+
+    const resetPasswordToken = randomBytes(20).toString('hex');
+    const resetPasswordExpires = new Date(Date.now() + 14400000);  // 4 heures
+
+    await prisma.user.update({
+      where: { email: email },
+      data: {
+        resetPasswordToken,
+        resetPasswordExpires,
+      },
+    });
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "Réinitialisation du mot de passe",
+      text: `Cliquez sur ce lien pour réinitialiser votre mot de passe: http://localhost:3000/reset-password/${resetPasswordToken}`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("erreur lors de l'envoi de l'email de réinitialisation", error);
+        return res.status(500).json({
+          error: "une erreur est survenue lors de l'envoi de l'email de réinitialisation",
+        });
+      }
+      res.status(200).json({ message: "Email de réinitialisation envoyé" });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "une erreur est survenue" });
+  }
+};
+
+export const resetPassword = async (req: Request, res: Response) => {
+  const { token, newPassword } = req.body;
+  console.log(token);
+
+  try {
+    
+    const user = await prisma.user.findFirst({
+      where: {
+        resetPasswordToken: token,
+
+      },
+    });
+
+    if (!user) {
+      return res.status(400).send('Token invalide ou expiré.');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      },
+    });
+
+    res.send('Le mot de passe a été réinitialisé avec succès.');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Une erreur est survenue lors de la réinitialisation du mot de passe.');
+  }
+
+}

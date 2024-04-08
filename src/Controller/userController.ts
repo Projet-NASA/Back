@@ -7,6 +7,8 @@ import {
   getUsers as getUsersFromMiddleware,
   logoutUser as logoutUserFromMiddleware,
   updateUser as updateUserFromMiddleware,
+  forgotPassword as forgotPasswordFromMiddleware,
+  resetPassword as resetPasswordFromMiddleware,
 } from "../middleware/userMiddleWare";
 
 export const createUser = async (req: Request, res: Response) => {
@@ -38,4 +40,12 @@ export const getUserSessionsController = async (
 
 export const logoutUser = async (req: Request, res: Response) => {
   await logoutUserFromMiddleware(req, res);
+};
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  await forgotPasswordFromMiddleware(req, res);
+};
+
+export const resetPassword = async (req: Request, res: Response) => {
+  await resetPasswordFromMiddleware(req, res);
 };
