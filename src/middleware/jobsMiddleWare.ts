@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import prisma from "../prisma";
 
 export const createJob = async (req: Request, res: Response) => {
-  const { title, company, location, type, from, to, description, userId } =
+  let { title, company, location, type, from, description, userId } =
     req.body;
-
+  from = new Date(from).toISOString() 
   try {
     const job = await prisma.jobs.create({
       data: {
@@ -48,7 +48,8 @@ export const getJob = async (req: Request, res: Response) => {
 
 export const updateJob = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { title, company, location, type, from, description } = req.body;
+  let { title, company, location, type, from, description } = req.body;
+  from = new Date(from).toISOString();
   try {
     const updatedJob = await prisma.jobs.update({
       where: {
