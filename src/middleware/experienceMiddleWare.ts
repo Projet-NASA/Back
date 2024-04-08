@@ -8,7 +8,6 @@ export const createExperience = async (req: Request, res: Response) => {
     location,
     from,
     to,
-    current,
     type,
     description,
     userId,
@@ -22,7 +21,6 @@ export const createExperience = async (req: Request, res: Response) => {
         location,
         from,
         to,
-        current,
         type,
         description,
         userId,
@@ -61,7 +59,7 @@ export const getExperience = async (req: Request, res: Response) => {
 
 export const updateExperience = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { title, company, location, type, from, to, description, current } =
+  const { title, company, location, type, from, to, description } =
     req.body;
   try {
     const updatedExperience = await prisma.experience.update({
@@ -76,7 +74,6 @@ export const updateExperience = async (req: Request, res: Response) => {
         from,
         to,
         description,
-        current,
       },
     });
     res

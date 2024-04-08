@@ -13,7 +13,6 @@ export const createJob = async (req: Request, res: Response) => {
         location,
         type,
         from,
-        to,
         description,
         userId,
       },
@@ -49,7 +48,7 @@ export const getJob = async (req: Request, res: Response) => {
 
 export const updateJob = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { title, company, location, type, from, to, description } = req.body;
+  const { title, company, location, type, from, description } = req.body;
   try {
     const updatedJob = await prisma.jobs.update({
       where: {
@@ -61,7 +60,6 @@ export const updateJob = async (req: Request, res: Response) => {
         location,
         type,
         from,
-        to,
         description,
       },
     });
