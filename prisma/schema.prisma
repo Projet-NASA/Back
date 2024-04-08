@@ -86,7 +86,7 @@ model Jobs {
   company     String
   location    String
   type        String
-  from        DateTime?
+  from        DateTime
   description String
   userId      String    @db.ObjectId
   user        User      @relation(fields: [userId], references: [id])

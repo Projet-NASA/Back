@@ -4,8 +4,8 @@ import prisma from "../prisma";
 export const createJob = async (req: Request, res: Response) => {
   let { title, company, location, type, from, description, userId } =
     req.body;
-  from = new Date(from).toISOString() 
-  try {
+    from = from ? new Date(from).toISOString() : from;
+    try {
     const job = await prisma.jobs.create({
       data: {
         title,
@@ -49,7 +49,7 @@ export const getJob = async (req: Request, res: Response) => {
 export const updateJob = async (req: Request, res: Response) => {
   const { id } = req.params;
   let { title, company, location, type, from, description } = req.body;
-  from = new Date(from).toISOString();
+  from = from ? new Date(from).toISOString() : from;
   try {
     const updatedJob = await prisma.jobs.update({
       where: {
