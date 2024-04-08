@@ -24,6 +24,6 @@ routerUser.post("/loginUser", loginUser);
 routerUser.get("/Session", newGetUserSessions);
 routerUser.post("/logoutUser", logoutUser);
 routerUser.post("/forgotPassword", forgotPassword);
-routerUser.post("/resetPassword", resetPassword);
+routerUser.put("/resetPassword", resetPassword);
 
 export default routerUser;

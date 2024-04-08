@@ -344,8 +344,9 @@ export const forgotPassword = async (req: Request, res: Response) => {
 };
 
 export const resetPassword = async (req: Request, res: Response) => {
-  const { token, newPassword } = req.body;
+  const { token, password } = req.body;
   console.log("1", token);
+  console.log("2", password);
 
   try {
     const user = await prisma.user.findUnique({
@@ -365,8 +366,8 @@ export const resetPassword = async (req: Request, res: Response) => {
       return res.status(400).send("Token invalide ou expiré.");
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("hashedPassword", hashedPassword);
     await prisma.user.update({
       where: { resetPasswordToken: token },
       data: {
