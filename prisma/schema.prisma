@@ -33,10 +33,10 @@ model User {
   lastName    String
   email       String       @unique
   password    String
-  phone       String?      @unique
-  country     String?
-  city        String?
-  dateofbirth DateTime?
+  phone       String      @unique
+  country     String
+  city        String
+  dateofbirth DateTime
   posts       Post[]
   likes       Like[]
   comments    Comment[]
