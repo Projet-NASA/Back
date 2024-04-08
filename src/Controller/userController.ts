@@ -9,6 +9,8 @@ import {
   updateUser as updateUserFromMiddleware,
   forgotPassword as forgotPasswordFromMiddleware,
   resetPassword as resetPasswordFromMiddleware,
+  loginUser as loginUserFromMiddleware,
+  newGetUserSessions as newGetUserSessionsFromMiddleware,
 } from "../middleware/userMiddleWare";
 
 export const createUser = async (req: Request, res: Response) => {
@@ -48,4 +50,12 @@ export const forgotPassword = async (req: Request, res: Response) => {
 
 export const resetPassword = async (req: Request, res: Response) => {
   await resetPasswordFromMiddleware(req, res);
+};
+
+export const loginUser = async (req: Request, res: Response) => {
+  await loginUserFromMiddleware(req, res);
+};
+
+export const newGetUserSessions = async (req: Request, res: Response) => {
+  await newGetUserSessionsFromMiddleware(req, res);
 };

@@ -6,14 +6,12 @@ import {
   getUsers,
   updateUser,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  logoutUser,
+  loginUser,
+  newGetUserSessions,
 } from "../Controller/userController";
 
-import {
-  loginUser,
-  logoutUser,
-  newGetUserSessions,
-} from "../middleware/userMiddleWare";
 
 const routerUser = Router();
 
