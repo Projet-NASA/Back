@@ -6,6 +6,7 @@ import {
   getJob as getJobFromMiddleware,
   getJobs as getJobsFromMiddleware,
   updateJob as updateJobFromMiddleware,
+  getAllJobsByUser as getAllJobsByUserFromMiddleware,
 } from "../middleware/jobsMiddleWare";
 
 export const createJob = async (req: Request, res: Response) => {
@@ -26,4 +27,8 @@ export const updateJob = async (req: Request, res: Response) => {
 
 export const deleteJob = async (req: Request, res: Response) => {
   await deleteJobFromMiddleware(req, res);
+};
+
+export const getAllJobsByUser = async (req: Request, res: Response) => {
+  await getAllJobsByUserFromMiddleware(req, res);
 };

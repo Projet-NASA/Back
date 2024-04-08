@@ -84,3 +84,17 @@ export const deleteJob = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+
+export const getAllJobsByUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const jobs = await prisma.jobs.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+    res.status(200).json(jobs);
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+}
