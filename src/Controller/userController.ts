@@ -2,15 +2,15 @@ import { Request, Response } from "express";
 import {
   createUser as createUserFromMiddleware,
   deleteUser as deleteUserFromMiddleware,
+  forgotPassword as forgotPasswordFromMiddleware,
   newGetUserSessions as getSessionUserFromMiddlewarre,
   getUser as getUserFromMiddleware,
   getUsers as getUsersFromMiddleware,
-  logoutUser as logoutUserFromMiddleware,
-  updateUser as updateUserFromMiddleware,
-  forgotPassword as forgotPasswordFromMiddleware,
-  resetPassword as resetPasswordFromMiddleware,
   loginUser as loginUserFromMiddleware,
+  logoutUser as logoutUserFromMiddleware,
   newGetUserSessions as newGetUserSessionsFromMiddleware,
+  resetPassword as resetPasswordFromMiddleware,
+  updateUser as updateUserFromMiddleware,
 } from "../middleware/userMiddleWare";
 
 export const createUser = async (req: Request, res: Response) => {

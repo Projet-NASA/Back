@@ -3,10 +3,10 @@ import { Router } from "express";
 import {
   createJob,
   deleteJob,
+  getAllJobsByUser,
   getJob,
   getJobs,
   updateJob,
-  getAllJobsByUser
 } from "../Controller/jobsController";
 
 const routerJob = Router();

@@ -2,16 +2,15 @@ import { Router } from "express";
 import {
   createUser,
   deleteUser,
+  forgotPassword,
   getUser,
   getUsers,
-  updateUser,
-  forgotPassword,
-  resetPassword,
-  logoutUser,
   loginUser,
+  logoutUser,
   newGetUserSessions,
+  resetPassword,
+  updateUser,
 } from "../Controller/userController";
-
 
 const routerUser = Router();
 

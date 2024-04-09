@@ -2,10 +2,9 @@ import { Request, Response } from "express";
 import prisma from "../prisma";
 
 export const createJob = async (req: Request, res: Response) => {
-  let { title, company, location, type, from, description, userId } =
-    req.body;
-    from = from ? new Date(from).toISOString() : from;
-    try {
+  let { title, company, location, type, from, description, userId } = req.body;
+  from = from ? new Date(from).toISOString() : from;
+  try {
     const job = await prisma.jobs.create({
       data: {
         title,
@@ -96,4 +95,4 @@ export const getAllJobsByUser = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
   }
-}
+};

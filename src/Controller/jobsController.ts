@@ -3,10 +3,10 @@ import { Request, Response } from "express";
 import {
   createJob as createJobFromMiddleware,
   deleteJob as deleteJobFromMiddleware,
+  getAllJobsByUser as getAllJobsByUserFromMiddleware,
   getJob as getJobFromMiddleware,
   getJobs as getJobsFromMiddleware,
   updateJob as updateJobFromMiddleware,
-  getAllJobsByUser as getAllJobsByUserFromMiddleware,
 } from "../middleware/jobsMiddleWare";
 
 export const createJob = async (req: Request, res: Response) => {
