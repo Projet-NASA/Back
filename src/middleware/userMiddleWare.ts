@@ -70,13 +70,29 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 export const getUser = async (req: Request, res: Response) => {
-  const { id } = req.params;
   try {
-    const retrievedUser = await prisma.user.findUnique({
-      where: {
-        id: id,
-      },
+    const sessionId = req.headers.authorization;
+    console.log("Session ID:", sessionId);
+    if (!sessionId) {
+      res
+        .status(400)
+        .json({ error: "No session ID provided usermiddlewar", sessionId });
+      return;
+    }
+
+    const session = await prisma.session.findUnique({
+      where: { id: sessionId },
     });
+
+    if (!session) {
+      res.status(404).json({ error: "Session not found" });
+      return;
+    }
+
+    const retrievedUser = await prisma.user.findUnique({
+      where: { id: session.userId },
+    });
+
     res.status(200).json(retrievedUser);
   } catch (error) {
     console.error(error);
@@ -149,6 +165,12 @@ export const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+function generateSessionId() {
+  const timestamp = Date.now().toString();
+  const randomNum = Math.floor(Math.random() * 1000).toString();
+  return timestamp + randomNum;
+}
+
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
@@ -168,26 +190,27 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "mot de passe incorrect" });
     }
 
+    const sessionId = generateSessionId();
+    console.log("Generated session: ", sessionId);
+
     try {
-      const session = await lucia.createSession(user.id, { userId: user.id });
-      console.log("session created ", session);
+      await prisma.session.create({
+        data: {
+          id: sessionId,
+          userId: user.id,
+          expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        },
+      });
 
-      res.cookie("sessionId", session.id);
-
-      const sessionCookie = lucia.createSessionCookie(session.id);
-      res.setHeader("set-Cookie", sessionCookie.serialize());
-      console.log("cookie défini", session.id);
+      res
+        .status(200)
+        .json({ message: "connexion réussie", user, sessionId: sessionId });
     } catch (error) {
-      console.error(
-        "erreur lors de la création de la session ou du cookie de session",
-        error,
-      );
+      console.error("Error creating session: ", error);
       return res.status(500).json({
         error: "une erreur est survenue lors de la création de la session",
       });
     }
-
-    res.status(200).json({ message: "connexion réussie", user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "une erreur est survenue" });
@@ -389,5 +412,25 @@ export const resetPassword = async (req: Request, res: Response) => {
       .send(
         "Une erreur est survenue lors de la réinitialisation du mot de passe.",
       );
+  }
+};
+
+export const getUserIdFromSession = async (req: Request, res: Response) => {
+  const { sessionId } = req.params;
+  try {
+    const session = await prisma.session.findUnique({
+      where: {
+        id: sessionId,
+      },
+    });
+
+    if (!session) {
+      return res.status(400).json({ error: "session non trouvée" });
+    }
+
+    res.status(200).json({ userId: session.userId });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "une erreur est survenue" });
   }
 };

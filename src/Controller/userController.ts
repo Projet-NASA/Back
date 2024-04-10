@@ -5,6 +5,7 @@ import {
   forgotPassword as forgotPasswordFromMiddleware,
   newGetUserSessions as getSessionUserFromMiddlewarre,
   getUser as getUserFromMiddleware,
+  getUserIdFromSession as getUserIdFromSessionFromMiddleware,
   getUsers as getUsersFromMiddleware,
   loginUser as loginUserFromMiddleware,
   logoutUser as logoutUserFromMiddleware,
@@ -58,4 +59,8 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const newGetUserSessions = async (req: Request, res: Response) => {
   await newGetUserSessionsFromMiddleware(req, res);
+};
+
+export const getUserIdFromSession = async (req: Request, res: Response) => {
+  await getUserIdFromSessionFromMiddleware(req, res);
 };

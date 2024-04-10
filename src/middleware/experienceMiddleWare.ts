@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
+
 export const createExperience = async (req: Request, res: Response) => {
   let { title, company, location, from, to, type, description, userId } =
     req.body;
@@ -31,7 +32,29 @@ export const createExperience = async (req: Request, res: Response) => {
 
 export const getExperiences = async (req: Request, res: Response) => {
   try {
-    const experiences = await prisma.experience.findMany();
+    const sessionId = Array.isArray(req.headers.sessionId)
+      ? req.headers.sessionId[0]
+      : req.headers.sessionId;
+    if (!sessionId) {
+      res
+        .status(400)
+        .json({ error: "No session ID provided experience middlewar" });
+      return;
+    }
+
+    const session = await prisma.session.findUnique({
+      where: { id: sessionId },
+    });
+
+    if (!session) {
+      res.status(404).json({ error: "Session not found" });
+      return;
+    }
+
+    const experiences = await prisma.experience.findMany({
+      where: { userId: session.userId },
+    });
+
     res.status(200).json(experiences);
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
