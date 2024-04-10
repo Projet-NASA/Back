@@ -106,3 +106,17 @@ export const deletePost = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+
+export const getPostById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const posts = await prisma.post.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
