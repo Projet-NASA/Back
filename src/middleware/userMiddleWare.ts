@@ -70,33 +70,16 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 export const getUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const sessionId = req.headers.authorization;
-    console.log("Session ID:", sessionId);
-    if (!sessionId) {
-      res
-        .status(400)
-        .json({ error: "No session ID provided usermiddlewar", sessionId });
-      return;
-    }
-
-    const session = await prisma.session.findUnique({
-      where: { id: sessionId },
-    });
-
-    if (!session) {
-      res.status(404).json({ error: "Session not found" });
-      return;
-    }
-
     const retrievedUser = await prisma.user.findUnique({
-      where: { id: session.userId },
+      where: {
+        id: id,
+      },
     });
-
     res.status(200).json(retrievedUser);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "une erreur est survenue" });
   }
 };
 
