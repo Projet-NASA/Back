@@ -276,7 +276,19 @@ export const logoutUser = async (req: Request, res: Response) => {
   }
 
   try {
-    await lucia.invalidateSession(sessionId);
+    const session = await prisma.session.findUnique({
+      where: { id: sessionId },
+    });
+
+    if (!session) {
+      return res.status(400).json({ error: "session non trouvée" });
+    }
+
+    const userId = session.userId;
+
+    await prisma.session.deleteMany({
+      where: { userId: userId },
+    });
 
     res.clearCookie("sessionId");
 
