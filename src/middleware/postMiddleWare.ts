@@ -114,6 +114,14 @@ export const getPostById = async (req: Request, res: Response) => {
       where: {
         id: id,
       },
+      include: {
+        user: true,
+        comments: {
+          include: {
+            user: true,
+          },
+        },
+      }
     });
     res.status(200).json(posts);
   } catch (error) {
