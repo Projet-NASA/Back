@@ -96,6 +96,9 @@ export const getCommentsByPost = async (req: Request, res: Response) => {
       where: {
         postId: postId,
       },
+      include: {
+        user: true,
+      }
     });
     res.status(200).json(comments);
   } catch (error) {
