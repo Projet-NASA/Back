@@ -121,7 +121,7 @@ export const getPostById = async (req: Request, res: Response) => {
             user: true,
           },
         },
-      }
+      },
     });
     res.status(200).json(posts);
   } catch (error) {
