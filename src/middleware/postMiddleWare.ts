@@ -16,7 +16,6 @@ export const createPost = async (req: Request, res: Response) => {
     console.log(`Checking word "${word}". Is in message: ${wordIsInMessage}`);
     return wordIsInMessage;
   });
-  console.log(containsBannedWord);
   try {
     if (containsBannedWord) {
       return res
