@@ -40,6 +40,25 @@ export const getFollower = async (req: Request, res: Response) => {
   }
 };
 
+export const isFollowing = async (req: Request, res: Response) => {
+  const { followerId, followingId } = req.params;
+  try {
+    const follower = await prisma.follower.findFirst({
+      where: {
+        followerId: followerId,
+        followingId: followingId,
+      },
+    });
+    if (follower) {
+      res.status(200).json({ message: "User is following" });
+    } else {
+      res.status(200).json({ message: "User is not following" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+}
+
 export const updateFollower = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { followingId, followerId } = req.body;

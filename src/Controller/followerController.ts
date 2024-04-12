@@ -6,6 +6,7 @@ import {
   getFollower as getFollowerFromMiddleware,
   getFollowers as getFollowersFromMiddleware,
   updateFollower as updateFollowerFromMiddleware,
+  isFollowing as isFollowingFromMiddleware,
 } from "../middleware/followerMiddleWare";
 
 export const createFollower = async (req: Request, res: Response) => {
@@ -26,4 +27,8 @@ export const updateFollower = async (req: Request, res: Response) => {
 
 export const deleteFollower = async (req: Request, res: Response) => {
   await deleteFollowerFromMiddleware(req, res);
+};
+
+export const isFollowing = async (req: Request, res: Response) => {
+  await isFollowingFromMiddleware(req, res);
 };
