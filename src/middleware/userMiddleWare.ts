@@ -174,7 +174,6 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     const sessionId = generateSessionId();
-    console.log("Generated session: ", sessionId);
 
     try {
       await prisma.session.create({
@@ -240,7 +239,6 @@ export const getUserSessions = async (req: Request, res: Response) => {
 export const newGetUserSessions = async (req: Request, res: Response) => {
   const userId = req.headers;
 
-  console.log("ici");
   if (!userId) {
     return res.status(400).json({ error: "Aucun ID utilisateur trouvé" });
   }
@@ -363,8 +361,6 @@ export const forgotPassword = async (req: Request, res: Response) => {
 
 export const resetPassword = async (req: Request, res: Response) => {
   const { token, password } = req.body;
-  console.log("1", token);
-  console.log("2", password);
 
   try {
     const user = await prisma.user.findUnique({
@@ -374,18 +370,15 @@ export const resetPassword = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      console.log("Token invalide ou expiré.", token);
       return res.status(400).send("Token invalide ou expiré.");
     }
 
     const now = new Date();
     if (user.resetPasswordExpires && user.resetPasswordExpires < now) {
-      console.log("Token invalide ou expiré.", token);
       return res.status(400).send("Token invalide ou expiré.");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("hashedPassword", hashedPassword);
     await prisma.user.update({
       where: { resetPasswordToken: token },
       data: {
@@ -395,13 +388,10 @@ export const resetPassword = async (req: Request, res: Response) => {
       },
     });
 
-    console.log("Le mot de passe a été réinitialisé avec succès.");
     res.send("Le mot de passe a été réinitialisé avec succès.");
   } catch (error) {
     console.error(error);
-    console.log(
-      "Une erreur est survenue lors de la réinitialisation du mot de passe.",
-    );
+
     res
       .status(500)
       .send(
