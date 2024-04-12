@@ -14,6 +14,6 @@ routerFollower.post("/createFollower", createFollower);
 routerFollower.get("/Follower", getFollowers);
 routerFollower.get("/OneFollower/:id", getFollower);
 routerFollower.put("/Follower/:id", updateFollower);
-routerFollower.delete("/Follower/:id", deleteFollower);
+routerFollower.delete("/Follower/:following/:follower", deleteFollower);
 
 export default routerFollower;

@@ -62,11 +62,12 @@ export const updateFollower = async (req: Request, res: Response) => {
 };
 
 export const deleteFollower = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { followerId, followingId } = req.params;
   try {
     await prisma.follower.delete({
       where: {
-        id: id,
+        followerId: followerId,
+        followingId: followingId,
       },
     });
     res.status(200).json({ message: "Follower deleted successfully" });

@@ -90,3 +90,11 @@ model Follower {
 
   @@unique([followerId, followingId], name: "unique_follow")
 }
+
+model Follow {
+  id          Int @id @map("_id")
+  followerId  Int
+  followingId Int
+
+  @@unique([followerId, followingId])
+}
