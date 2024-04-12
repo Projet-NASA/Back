@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import prisma from "../prisma";
 
 export const createExperience = async (req: Request, res: Response) => {
-  let { title, company, location, from, to, type, description, userId } =
+  let { title, company, location, from, to, current, type, description, userId } =
     req.body;
 
   from = from ? new Date(from).toISOString() : from;
@@ -16,6 +16,7 @@ export const createExperience = async (req: Request, res: Response) => {
         location,
         from,
         to,
+        current,
         type,
         description,
         userId,
