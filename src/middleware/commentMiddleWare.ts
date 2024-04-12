@@ -1,10 +1,27 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
+const fs = require("fs");
+const path = require("path");
 
 export const createComment = async (req: Request, res: Response) => {
   const { message, userId, postId } = req.body;
-
+  const bannedWordsFilePath = path.join(__dirname, "../Data/wordsBlacklist.csv");
+  const bannedWords = fs
+    .readFileSync(bannedWordsFilePath, "utf-8")
+    .split(",")
+    .map((word: string) => word.trim().toLowerCase())
+    .filter((word: any) => word);
+  const containsBannedWord = bannedWords.some((word: any) => {
+    const wordIsInMessage = message.toLowerCase().includes(word);
+    console.log(`Checking word "${word}". Is in message: ${wordIsInMessage}`);
+    return wordIsInMessage;
+  });
   try {
+    if (containsBannedWord) {
+      return res
+        .status(400)
+        .json({ error: "Your message contains inappropriate words" });
+    }
     const comment = await prisma.comment.create({
       data: {
         message,
