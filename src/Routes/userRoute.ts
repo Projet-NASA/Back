@@ -2,16 +2,16 @@ import { Router } from "express";
 import {
   createUser,
   deleteUser,
+  forgotPassword,
   getUser,
   getUsers,
-  updateUser,
-} from "../Controller/userController";
-
-import {
   loginUser,
   logoutUser,
   newGetUserSessions,
-} from "../middleware/userMiddleWare";
+  resetPassword,
+  updateUser,
+} from "../Controller/userController";
+import { getUserIdFromSession } from "../middleware/userMiddleWare";
 
 const routerUser = Router();
 
@@ -23,5 +23,8 @@ routerUser.delete("/User/:id", deleteUser);
 routerUser.post("/loginUser", loginUser);
 routerUser.get("/Session", newGetUserSessions);
 routerUser.post("/logoutUser", logoutUser);
+routerUser.post("/forgotPassword", forgotPassword);
+routerUser.put("/resetPassword", resetPassword);
+routerUser.get("/getUserIdFromSession/:sessionId", getUserIdFromSession);
 
 export default routerUser;

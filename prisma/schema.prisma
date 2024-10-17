@@ -8,12 +8,12 @@ datasource db {
 }
 
 model Session {
-    id        String   @id @map("_id")
-    userId    String   @db.ObjectId
-    expiresAt DateTime
-    lastConnexion  DateTime @default(now())
-    user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
-  }
+  id            String   @id @map("_id")
+  userId        String   @db.ObjectId
+  expiresAt     DateTime
+  lastConnexion DateTime @default(now())
+  user          User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
 
 model Post {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
@@ -21,45 +21,46 @@ model Post {
   message   String
   userId    String    @db.ObjectId
   user      User      @relation(fields: [userId], references: [id])
-  like      Int?       @default(0)
+  like      Int?      @default(0)
   userliked Like[]
   comments  Comment[]
 }
 
 model User {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt   DateTime     @default(now())
-  firstName   String
-  lastName    String
-  email       String       @unique
-  password    String
-  phone       String?      @unique
-  country     String?
-  city        String?
-  dateofbirth DateTime?
-  posts       Post[]
-  likes       Like[]
-  comments    Comment[]
-  experiences experience[]
-  jobs        Jobs[]
-  followers   Follower[]   @relation("following")
-  following   Follower[]   @relation("follower")
-  sessions    Session[]
+  id                   String       @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt            DateTime     @default(now())
+  firstName            String
+  lastName             String
+  email                String       @unique
+  password             String
+  phone                String       @unique
+  country              String
+  city                 String
+  dateofbirth          DateTime
+  posts                Post[]
+  likes                Like[]
+  comments             Comment[]
+  experiences          experience[]
+  followers            Follower[]   @relation("following")
+  following            Follower[]   @relation("follower")
+  sessions             Session[]
+  resetPasswordToken   String?      @unique
+  resetPasswordExpires DateTime?
 }
 
 model experience {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt   DateTime @default(now())
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime  @default(now())
   title       String
   company     String
   location    String
   from        DateTime
-  to          DateTime @default(now())
+  to          DateTime?
   current     Boolean
   type        String
   description String
-  userId      String   @db.ObjectId
-  user        User     @relation(fields: [userId], references: [id])
+  userId      String    @db.ObjectId
+  user        User      @relation(fields: [userId], references: [id])
 }
 
 model Like {
@@ -80,20 +81,6 @@ model Comment {
   post      Post     @relation(fields: [postId], references: [id])
 }
 
-model Jobs {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt   DateTime  @default(now())
-  title       String
-  company     String
-  location    String
-  type        String
-  from        DateTime?
-  to          DateTime?
-  description String
-  userId      String    @db.ObjectId
-  user        User      @relation(fields: [userId], references: [id])
-}
-
 model Follower {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   followerId  String @db.ObjectId
@@ -102,4 +89,12 @@ model Follower {
   following   User   @relation("following", fields: [followingId], references: [id])
 
   @@unique([followerId, followingId], name: "unique_follow")
+}
+
+model Follow {
+  id          Int @id @map("_id")
+  followerId  Int
+  followingId Int
+
+  @@unique([followerId, followingId])
 }

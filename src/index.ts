@@ -8,7 +8,6 @@ import { lucia } from "./middleware/userMiddleWare";
 import routerComment from "./Routes/commentRoute";
 import routerExperience from "./Routes/experienceRoute";
 import routerFollower from "./Routes/follower.Route";
-import routerJob from "./Routes/jobsRoute";
 import routerLike from "./Routes/likeRoute";
 import routerPost from "./Routes/postRoute";
 import routerTest from "./Routes/testRoute";
@@ -24,6 +23,7 @@ app.use(morgan("tiny"));
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
 app.use(cors(corsOptions));
@@ -33,7 +33,6 @@ app.use("/", routerTest);
 app.use("/user", routerUser);
 app.use("/comment", routerComment);
 app.use("/experience", routerExperience);
-app.use("/job", routerJob);
 app.use("/post", routerPost);
 app.use("/like", routerLike);
 app.use("/follower", routerFollower);
