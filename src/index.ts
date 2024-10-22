@@ -4,6 +4,7 @@ import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+import lusca from "lusca";
 import { lucia } from "./middleware/userMiddleWare";
 import routerComment from "./Routes/commentRoute";
 import routerExperience from "./Routes/experienceRoute";
@@ -28,6 +29,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(lusca.csrf());
 
 app.use("/", routerTest);
 app.use("/user", routerUser);

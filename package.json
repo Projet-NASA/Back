@@ -48,7 +48,8 @@
     "n": "^9.2.3",
     "nodemailer": "^6.9.15",
     "parser": "^0.1.4",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "lusca": "^1.7.0"
   },
   "module": "index.ts",
   "type": "module",
