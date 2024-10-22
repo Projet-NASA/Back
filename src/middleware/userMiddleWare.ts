@@ -150,7 +150,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 
 function generateSessionId() {
   const timestamp = Date.now().toString();
-  const randomNum = Math.floor(Math.random() * 1000).toString();
+  const randomNum = randomBytes(16).toString('hex');
   return timestamp + randomNum;
 }
 
